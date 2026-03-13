@@ -44,9 +44,6 @@ Periodic methods are called every 20 ms by default. This can be changed by calli
    }
    ```
 
-   ```c++
-   Robot() : frc::TimedRobot(30_ms) {}
-   ```
 
 ### Timeslice Robot
 

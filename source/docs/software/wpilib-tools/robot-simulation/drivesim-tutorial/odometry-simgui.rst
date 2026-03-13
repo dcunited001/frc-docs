@@ -11,11 +11,6 @@ The robot pose can be visualized on the Simulator GUI (during simulation) or on 
    private Field2d m_field = new Field2d();
    ```
 
-   ```c++
-   #include <frc/smartdashboard/Field2d.h>
-   ...
-   frc::Field2d m_field;
-   ```
 
 This ``Field2d`` instance must then be sent over NetworkTables. The best place to do this is in the constructor of your subsystem.
 
@@ -27,13 +22,6 @@ This ``Field2d`` instance must then be sent over NetworkTables. The best place t
    }
    ```
 
-   ```c++
-   #include <frc/smartdashboard/SmartDashboard.h>
-   Drivetrain() {
-     ...
-     frc::SmartDashboard::PutData("Field", &m_field);
-   }
-   ```
 
 .. note:: The ``Field2d`` instance can also be sent using a lower-level NetworkTables API or using the :ref:`Shuffleboard API <docs/software/dashboards/shuffleboard/getting-started/shuffleboard-displaying-data:Displaying data from your robot>`.
 
@@ -53,18 +41,6 @@ Finally, the pose from your odometry must be updated periodically into the ``Fie
    }
    ```
 
-   ```c++
-   void Periodic() {
-     ...
-     // This will get the simulated sensor readings that we set
-     // in the previous article while in simulation, but will use
-     // real values on the robot itself.
-     m_odometry.Update(m_gyro.GetRotation2d(),
-                       units::meter_t(m_leftEncoder.GetDistance()),
-                       units::meter_t(m_rightEncoder.GetDistance()));
-     m_field.SetRobotPose(m_odometry.GetPose());
-   }
-   ```
 
 .. important:: It is important that this code is placed in a regular ``periodic()`` method -- one that is called periodically regardless of mode of operation. If you are using the command-based library, this method already exists. If not, you are responsible for calling this method periodically from the main ``Robot`` class.
 

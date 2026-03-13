@@ -157,15 +157,7 @@ Like mecanum drivetrains, swerve drivetrains are holonomic and have the ability 
    var speeds = new ChassisSpeeds(-m_stick.getY(), -m_stick.getX(), -m_stick.getZ());
    ```
 
-   ```c++
-   // Drive using the X, Y, and Z axes of the joystick.
-   frc::ChassisSpeeds speeds{-m_stick.GetY(), -m_stick.GetX(), -m_stick.GetZ()};
-   ```
 
-   ```python
-   # Drive using the X, Y, and Z axes of the joystick.
-   speeds = ChassisSpeeds(-self.stick.getY(), -self.stick.getX(), -self.stick.getZ())
-   ```
 
 The three arguments to the ``ChassisSpeeds`` constructor are the same as ``driveCartesian`` in the mecanum section above; ``xSpeed``, ``ySpeed``, and ``zRotation``. See the description of the arguments, and their joystick input in the section above.
 
@@ -257,31 +249,7 @@ A simple way to deal with field oriented driving is to check the alliance color 
    m_robotDrive.driveCartesian(xSpeed * invert, ySpeed * invert, zRotation, imu.getRotation2d());
    ```
 
-   ```c++
-   // The origin is always blue. When our alliance is red, X and Y need to be inverted
-   int invert = 1;
-   if (frc::DriverStation::GetAlliance() == frc::DriverStation::Alliance::kRed) {
-       invert = -1;
-   }
-   // Create field relative ChassisSpeeds for controlling Swerve
-   frc::ChassisSpeeds chassisSpeeds =
-           frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed * invert, ySpeed * invert, zRotation, imu.GetRotation2d());
-   // Control a mecanum drivetrain
-   m_robotDrive.driveCartesian(xSpeed * invert, ySpeed * invert, zRotation, imu.GetRotation2d());
-   ```
 
-   ```python
-   # The origin is always blue. When our alliance is red, X and Y need to be inverted
-   invert = 1
-   if wpilib.DriverStation.getAlliance() == wpilib.DriverStation.Alliance.kRed:
-       invert = -1
-   # Create field relative ChassisSpeeds for controlling Swerve
-   chassis_speeds = wpilib.ChassisSpeeds.FromFieldRelativeSpeeds(
-       xSpeed * invert, ySpeed * invert, zRotation, self.imu.GetAngle()
-   )
-   # Control a mecanum drivetrain
-   self.robotDrive.driveCartesian(xSpeed * invert, ySpeed * invert, zRotation, self.imu.GetAngle())
-   ```
 
 #### Origin follows your alliance
 

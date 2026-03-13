@@ -72,19 +72,6 @@ If your odometry is bad, then your Ramsete controller may misbehave, because it 
    }
    ```
 
-   ```c++
-   NetworkTableEntry m_xEntry = nt::NetworkTableInstance::GetDefault().GetTable("troubleshooting")->GetEntry("X");
-   NetworkTableEntry m_yEntry = nt::NetworkTableInstance::GetDefault().GetTable("troubleshooting")->GetEntry("Y");
-   void DriveSubsystem::Periodic() {
-       // Implementation of subsystem periodic method goes here.
-       m_odometry.Update(frc::Rotation2d(units::degree_t(GetHeading())),
-                           units::meter_t(m_leftEncoder.GetDistance()),
-                           units::meter_t(m_rightEncoder.GetDistance()));
-       auto translation = m_odometry.GetPose().Translation();
-       m_xEntry.SetDouble(translation.X().value());
-       m_yEntry.SetDouble(translation.Y().value());
-   }
-   ```
 
 2. Lay out a tape measure parallel to your robot and push your robot out about one meter along the tape measure. Lay out a tape measure along the Y axis and start over, pushing your robot one meter along the X axis and one meter along the Y axis in a rough arc.
 3. Compare X and Y reported by the robot to actual X and Y. If X is off by more than 5 centimeters in the first test then you should check that you measured your wheel diameter correctly, and that your wheels are not worn down. If the second test is off by more than 5 centimeters in either X or Y then your track width (distance from the center of the left wheel to the center of the right wheel) may be incorrect; if you're sure that you measured the track width correctly with a tape measure then your robot's wheels may be slipping in a way that is not accounted for by track width, so try increasing the track width number or measuring it programmatically.
@@ -122,17 +109,6 @@ If your feedforwards are bad then the P controllers for each side of the robot w
    );
    ```
 
-   ```c++
-   frc::RamseteController m_disabledRamsete;
-   m_disabledRamsete.SetEnabled(false);
-   // Be sure to pass your new disabledRamsete variable
-   frc2::RamseteCommand ramseteCommand(
-     exampleTrajectory,
-     [this]() { return m_drive.GetPose(); },
-     m_disabledRamsete,
-     ...
-   );
-   ```
 
 3. Finally, we need to log desired wheel velocity and actual wheel velocity (you should put actual and desired velocities on the same graph if you're using Shuffleboard, or if your graphing software has that capability):
 
@@ -167,37 +143,6 @@ If your feedforwards are bad then the P controllers for each side of the robot w
    );
    ```
 
-   ```c++
-   auto table =
-       nt::NetworkTableInstance::GetDefault().GetTable("troubleshooting");
-   auto leftRef = table->GetEntry("left_reference");
-   auto leftMeas = table->GetEntry("left_measurement");
-   auto rightRef = table->GetEntry("right_reference");
-   auto rightMeas = table->GetEntry("right_measurement");
-   frc::PIDController leftController(DriveConstants::kPDriveVel, 0, 0);
-   frc::PIDController rightController(DriveConstants::kPDriveVel, 0, 0);
-   frc2::RamseteCommand ramseteCommand(
-       exampleTrajectory, [this]() { return m_drive.GetPose(); },
-       frc::RamseteController(AutoConstants::kRamseteB,
-                               AutoConstants::kRamseteZeta),
-       frc::SimpleMotorFeedforward<units::meters>(
-           DriveConstants::ks, DriveConstants::kv, DriveConstants::ka),
-       DriveConstants::kDriveKinematics,
-       [this] { return m_drive.GetWheelSpeeds(); }, leftController,
-       rightController,
-       [=](auto left, auto right) {
-           auto leftReference = leftRef;
-           auto leftMeasurement = leftMeas;
-           auto rightReference = rightRef;
-           auto rightMeasurement = rightMeas;
-           m_drive.TankDriveVolts(left, right);
-           leftMeasurement.SetDouble(m_drive.GetWheelSpeeds().left.value());
-           leftReference.SetDouble(leftController.GetSetpoint());
-           rightMeasurement.SetDouble(m_drive.GetWheelSpeeds().right.value());
-           rightReference.SetDouble(rightController.GetSetpoint());
-       },
-       {&m_drive});
-   ```
 
 4. Run the robot on a variety of trajectories (curved and straight line), and check to see if the actual velocity tracks the desired velocity by looking at graphs from NetworkTables.
 5. If the desired and actual are off by *a lot* then you should check if the wheel diameter and ``encoderEPR`` you used for system identification were correct. If you've verified that your units and conversions are correct, then you should try recharacterizing on the same floor that you're testing on to see if you can get better data.

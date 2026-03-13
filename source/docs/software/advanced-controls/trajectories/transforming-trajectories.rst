@@ -17,16 +17,7 @@ For example, a trajectory defined in coordinate system A can be redefined in coo
    Trajectory bTrajectory = aTrajectory.relativeTo(bOrigin);
    ```
 
-   ```c++
-   frc::Pose2d bOrigin{3_m, 3_m, frc::Rotation2d(30_deg)};
-   frc::Trajectory bTrajectory = aTrajectory.RelativeTo(bOrigin);
-   ```
 
-   ```python
-   from wpimath.geometry import Pose2d, Rotation2d
-   bOrigin = Pose2d(3, 3, Rotation2d.fromDegrees(30))
-   bTrajectory = aTrajectory.relativeTo(bOrigin)
-   ```
 
 .. image:: images/relative-to.png
    :alt: Coordinate system representation of the trajectory.
@@ -46,16 +37,7 @@ For example, one may want to transform a trajectory that begins at (2, 2, 30 deg
    Trajectory newTrajectory = trajectory.transformBy(transform);
    ```
 
-   ```c++
-   frc::Transform2d transform = Pose2d(4_m, 4_m, Rotation2d(50_deg)) - trajectory.InitialPose();
-   frc::Trajectory newTrajectory = trajectory.TransformBy(transform);
-   ```
 
-   ```python
-   from wpimath.geometry import Pose2d, Rotation2d
-   transform = Pose2d(4, 4, Rotation2d.fromDegrees(50)) - trajectory.initialPose()
-   newTrajectory = trajectory.transformBy(transform)
-   ```
 
 .. image:: images/transform-by.png
    :alt: Coordinate system plot of a transformed trajectory.

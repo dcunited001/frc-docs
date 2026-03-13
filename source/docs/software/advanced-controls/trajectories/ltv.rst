@@ -16,13 +16,7 @@ The code example below initializes the LTV Unicycle Controller with `qelems` of 
    LTVUnicycleController controller = new LTVUnicycleController(VecBuilder.fill(0.0625, 0.125, 2.0), VecBuilder.fill(1.0, 2.0), 0.02, 9);
    ```
 
-   ```c++
-   frc::LTVUnicycleController controller{{0.0625, 0.125, 2.0}, {1.0, 2.0}, 0.02_s, 9_mps};
-   ```
 
-   ```python
-   controller = LTVUnicycleController([0.0625, 0.125, 2.0], [1.0, 2.0], 0.02, 9)
-   ```
 
 ## Getting Velocity Commands
 The LTV Unicycle controller returns linear and angular velocity commands which, if followed, will make the robot accurately reach a goal state consisting of a desired pose, desired linear velocity, and desired angular velocity.
@@ -38,15 +32,7 @@ The controller can be updated using the ``Calculate`` (C++) / ``calculate`` (Jav
    ChassisSpeeds adjustedSpeeds = controller.calculate(currentRobotPose, reference);
    ```
 
-   ```c++
-   const Trajectory::State reference = trajectory.Sample(3.4_s); // sample the trajectory at 3.4 seconds from the beginning
-   ChassisSpeeds adjustedSpeeds = controller.Calculate(currentRobotPose, reference);
-   ```
 
-   ```python
-   reference = trajectory.sample(3.4)  # sample the trajectory at 3.4 seconds from the beginning
-   adjustedSpeeds = controller.calculate(currentRobotPose, reference)
-   ```
 
 These calculations should be performed at every loop iteration, with an updated robot position and reference.
 
@@ -64,18 +50,7 @@ The returned adjusted speeds can be converted to usable speeds using the kinemat
    double right = wheelSpeeds.rightMetersPerSecond;
    ```
 
-   ```c++
-   ChassisSpeeds adjustedSpeeds = controller.Calculate(currentRobotPose, reference);
-   DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.ToWheelSpeeds(adjustedSpeeds);
-   auto [left, right] = kinematics.ToWheelSpeeds(adjustedSpeeds);
-   ```
 
-   ```python
-   adjustedSpeeds = controller.calculate(currentRobotPose, reference)
-   wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds)
-   left = wheelSpeeds.left
-   right = wheelSpeeds.right
-   ```
 
 These new left and right velocities are still speeds and not voltages, so two PID Controllers, one for each side, should be used to track them. You can use either the WPILib PIDController ([C++](https://github.wpilib.org/allwpilib/docs/release/cpp/classfrc_1_1_p_i_d_controller.html), [Java](https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/controller/PIDController.html), :external:py:class:`Python <wpimath.controller.PIDController>`) or the Velocity PID feature on smart motor controllers such as the TalonSRX and the SPARK MAX.
 

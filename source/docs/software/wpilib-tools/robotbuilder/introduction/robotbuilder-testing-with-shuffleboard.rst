@@ -28,10 +28,5 @@ The buttons will be generated automatically and will appear on the dashboard scr
    SmartDashboard.putData("Close Claw", new CloseClaw(m_claw));
    ```
 
-   ```c++
-   SmartDashboard::PutData("Autonomous Command", new AutonomousCommand());
-   SmartDashboard::PutData("Open Claw", new OpenClaw(&m_claw));
-   SmartDashboard::PutData("Close Claw", new CloseClaw(&m_claw));
-   ```
 
 Commands can be added to the Shuffleboard manually by writing the code yourself. This is done by passing instances of the command to the PutData method along with the name that should be associated with the button on the Shuffleboard. These instances are scheduled whenever the button is pressed. The result is exactly the same as RobotBuilder generated code, although clicking the checkbox in RobotBuilder is much easier than writing all the code by hand.

@@ -131,16 +131,6 @@ To create code tabs in an article, you can use the ``.. tab-set-code::`` directi
       :lines: 19-25
       :lineno-match:
    
-   ```c++
-   // Start the timer.
-   m_timer.Start();
-   // Send Field2d to SmartDashboard.
-   frc::SmartDashboard::PutData(&m_field);
-   // Reset the drivetrain's odometry to the starting pose of the trajectory.
-   m_drive.ResetOdometry(m_trajectory.InitialPose());
-   // Send our generated trajectory to Field2d.
-   m_field.GetObject("traj")->SetTrajectory(m_trajectory);
-   ```
 ````
 
 If you need to use more than one tab per language, multiple RLIs per language, or text tabs, you can use the ``.. tab-set::`` and ``.. tab-item::`` directive.  The format is:

@@ -19,24 +19,7 @@ The Ramsete controller should be initialized with two gains, namely ``b`` and ``
    RamseteController controller2 = new RamseteController(2.1, 0.8);
    ```
 
-   ```c++
-   // Using the default constructor of RamseteController. Here
-   // the gains are initialized to 2.0 and 0.7.
-   frc::RamseteController controller1;
-   // Using the secondary constructor of RamseteController where
-   // the user can choose any other gains.
-   frc::RamseteController controller2{2.1, 0.8};
-   ```
 
-   ```python
-   from wpimath.controller import RamseteController
-   # Using the default constructor of RamseteController. Here
-   # the gains are initialized to 2.0 and 0.7.
-   controller1 = RamseteController()
-   # Using the secondary constructor of RamseteController where
-   # the user can choose any other gains.
-   controller2 = RamseteController(2.1, 0.8)
-   ```
 
 ## Getting Adjusted Velocities
 The Ramsete controller returns "adjusted velocities" so that the when the robot tracks these velocities, it accurately reaches the goal point. The controller should be updated periodically with the new reference, which is where it should be at the current time. The reference comprises of a desired pose, desired linear velocity, and desired angular velocity. Furthermore, the current position of the robot should also be updated periodically. The controller uses these four arguments to return the adjusted linear and angular velocity. Users should command their robot to these linear and angular velocities to achieve optimal trajectory tracking.
@@ -52,15 +35,7 @@ The controller can be updated using the ``Calculate`` (C++) / ``calculate`` (Jav
    ChassisSpeeds adjustedSpeeds = controller.calculate(currentRobotPose, reference);
    ```
 
-   ```c++
-   const Trajectory::State reference = trajectory.Sample(3.4_s); // sample the trajectory at 3.4 seconds from the beginning
-   ChassisSpeeds adjustedSpeeds = controller.Calculate(currentRobotPose, reference);
-   ```
 
-   ```python
-   reference = trajectory.sample(3.4)  # sample the trajectory at 3.4 seconds from the beginning
-   adjustedSpeeds = controller.calculate(currentRobotPose, reference)
-   ```
 
 These calculations should be performed at every loop iteration, with an updated robot position and reference.
 
@@ -78,18 +53,7 @@ The returned adjusted speeds can be converted to usable speeds using the kinemat
    double right = wheelSpeeds.rightMetersPerSecond;
    ```
 
-   ```c++
-   ChassisSpeeds adjustedSpeeds = controller.Calculate(currentRobotPose, reference);
-   DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.ToWheelSpeeds(adjustedSpeeds);
-   auto [left, right] = kinematics.ToWheelSpeeds(adjustedSpeeds);
-   ```
 
-   ```python
-   adjustedSpeeds = controller.calculate(currentRobotPose, reference)
-   wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds)
-   left = wheelSpeeds.left
-   right = wheelSpeeds.right
-   ```
 
 Because these new left and right velocities are still speeds and not voltages, two PID Controllers, one for each side may be used to track these velocities. Either the WPILib PIDController ([C++](https://github.wpilib.org/allwpilib/docs/release/cpp/classfrc_1_1_p_i_d_controller.html), [Java](https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/controller/PIDController.html), :external:py:class:`Python <wpimath.controller.PIDController>`) can be used, or the Velocity PID feature on smart motor controllers such as the TalonSRX and the SPARK MAX can be used.
 

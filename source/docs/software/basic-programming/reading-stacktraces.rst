@@ -165,18 +165,6 @@ For example, consider the following code:
    }
    ```
 
-   ```C++
-   :lineno-start: 17
-   class Robot : public frc::TimedRobot {
-    public:
-     void RobotInit() override {
-        motorRef->SetInverted(false);
-     }
-    private:
-     frc::PWMVictorSPX m_armMotor{0};
-     frc::PWMVictorSPX* motorRef;
-   };
-   ```
 
 When run, you'll see output that looks like this:
 
@@ -244,19 +232,6 @@ A functional implementation could look like this:
    }
    ```
 
-   ```C++
-   :lineno-start: 17
-   class Robot : public frc::TimedRobot {
-    public:
-     void RobotInit() override {
-        motorRef = &m_armMotor;
-        motorRef->SetInverted(false);
-     }
-    private:
-     frc::PWMVictorSPX m_armMotor{0};
-     frc::PWMVictorSPX* motorRef;
-   };
-   ```
 
 ### Divide by Zero
 
@@ -278,19 +253,6 @@ For example, consider the following code:
    }
    ```
 
-   ```C++
-   :lineno-start: 17
-   class Robot : public frc::TimedRobot {
-    public:
-     void RobotInit() override {
-        armLengthRatio = elbowToWrist_in / shoulderToElbow_in;
-     }
-    private:
-     int armLengthRatio;
-     int elbowToWrist_in = 39;
-     int shoulderToElbow_in = 0; //TODO
-   };
-   ```
 
 When run, you'll see output that looks like this:
 
@@ -359,19 +321,6 @@ A functional implementation could look like this:
    }
    ```
 
-   ```C++
-   :lineno-start: 17
-   class Robot : public frc::TimedRobot {
-    public:
-     void RobotInit() override {
-        armLengthRatio = elbowToWrist_in / shoulderToElbow_in;
-     }
-    private:
-     int armLengthRatio;
-     int elbowToWrist_in = 39;
-     int shoulderToElbow_in = 3
-   };
-   ```
 
 Alternatively, if zero *is* a valid value, adding ``if/else`` statements around the calculation can help you define alternate behavior to avoid making the processor perform a division by zero.
 
@@ -398,19 +347,6 @@ For example, consider the following code:
    }
    ```
 
-   ```C++
-   :lineno-start: 17
-   class Robot : public frc::TimedRobot {
-    public:
-     void RobotInit() override {
-        m_frontLeftMotor.Set(0.5);
-        m_rearLeftMotor.Set(0.25);
-     }
-    private:
-     frc::PWMVictorSPX m_frontLeftMotor{0};
-     frc::PWMVictorSPX m_rearLeftMotor{0};
-   };
-   ```
 
 When run, you'll see output that looks like this:
 
@@ -515,19 +451,6 @@ In the example, the left motor controllers are plugged into :term:`PWM` ports ``
    }
    ```
 
-   ```C++
-   :lineno-start: 17
-   class Robot : public frc::TimedRobot {
-    public:
-     void RobotInit() override {
-        m_frontLeftMotor.Set(0.5);
-        m_rearLeftMotor.Set(0.25);
-     }
-     private:
-      frc::PWMVictorSPX m_frontLeftMotor{0};
-      frc::PWMVictorSPX m_rearLeftMotor{1};
-   };
-   ```
 
 Another way this error can manifest for teams using the Command framework is if a Subsystem is instantiated twice, which causes the hardware in the subsystem to be instantiated twice.
 

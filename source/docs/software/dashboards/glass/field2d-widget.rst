@@ -15,24 +15,7 @@ To send your robot's position (usually obtained by :ref:`odometry <docs/software
    m_field.setRobotPose(m_odometry.getPoseMeters());
    ```
 
-   ```c++
-   #include <frc/smartdashboard/Field2d.h>
-   #include <frc/smartdashboard/SmartDashboard.h>
-   frc::Field2d m_field;
-   // Do this in either robot or subsystem init
-   frc::SmartDashboard::PutData("Field", &m_field);
-   // Do this in either robot periodic or subsystem periodic
-   m_field.SetRobotPose(m_odometry.GetPose());
-   ```
 
-   ```python
-   from wpilib import SmartDashboard, Field2d
-   self.field = Field2d()
-   # Do this in either robot or subsystem init
-   SmartDashboard.putData("Field", self.field)
-   # Do this in either robot periodic or subsystem periodic
-   self.field.setRobotPose(self.odometry.getPose())
-   ```
 
 .. note:: The ``Field2d`` instance can also be sent using a lower-level NetworkTables API or using the :ref:`Shuffleboard API <docs/software/dashboards/shuffleboard/getting-started/shuffleboard-displaying-data:Displaying data from your robot>`. In this case, the ``SmartDashboard`` API was used, meaning that the :guilabel:`Field2d` widget will appear under the ``SmartDashboard`` table name.
 

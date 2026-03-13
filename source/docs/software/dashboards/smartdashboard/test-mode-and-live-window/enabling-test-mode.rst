@@ -17,16 +17,7 @@ To run LiveWindow in Test Mode, the following code is needed in the ``Robot`` cl
    }
    ```
 
-   ```c++
-   Robot::Robot() {
-      EnableLiveWindowInTest(true);
-   }
-   ```
 
-   ```python
-   def robotInit(self) -> None:
-      enableLiveWindowInTest(true)
-   ```
 
 ## Explicitly vs. implicit test mode display
 
@@ -48,28 +39,7 @@ To run LiveWindow in Test Mode, the following code is needed in the ``Robot`` cl
    }
    ```
 
-   ```c++
-   frc::PWMSparkMax leftDrive{0};
-   frc::PWMSparkMax rigthDrive{1};
-   frc::BuiltInAccelerometer accel{};
-   frc::PWMVictorSPX arm{3};
-   Robot::Robot() {
-      wpi::SendableRegistry::SetName(&arm, "SomeSubsystem", "Arm");
-      wpi::SendableRegistry::SetName(&accel, "SomeSubsystem", "Accelerometer");
-   }
-   ```
 
-   ```python
-   from wpilib import BuiltInAccelerometer, PWMSparkMax, PWMVictorSPX
-   from wpiutil import SendableRegistry
-   def robotInit(self) -> None:
-      leftDrive = PWMSparkMax(0)
-      rightDrive = PWMSparkMax(1)
-      arm = PWMVictorSPX(2)
-      accel = BuiltInAccelerometer()
-      SendableRegistry.setName(arm, "SomeSubsystem", "Arm")
-      SendableRegistry.setName(accel, "SomeSubsystem", "Accelerometer")
-   ```
 
 All sensors and actuators will automatically be displayed on the SmartDashboard in test mode and will be named using the object type (such as PWMSparkMax, PWMVictorSPX, BuiltInAccelerometer, etc.) with channel number with which the object was created. In addition, the program can explicitly add sensors and actuators to the test mode display, in which case programmer-defined subsystem and object names can be specified making the program clearer. This example illustrates explicitly defining those sensors and actuators.
 

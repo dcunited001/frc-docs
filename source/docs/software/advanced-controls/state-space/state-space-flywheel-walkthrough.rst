@@ -308,15 +308,5 @@ Mechanisms with a continuous angle can have that angle wrapped by calling the co
    var u = lqr.getK().times(error);
    ```
 
-   ```c++
-   Eigen::Vector<double, 2> error = lqr.R() - x;
-   error(0) = frc::AngleModulus(units::radian_t{error(0)}).value();
-   Eigen::Vector<double, 2> u = lqr.K() * error;
-   ```
 
-   ```python
-   error = lqr.R() - x
-   error[0] = wpimath.angleModulus(error[0])
-   u = lqr.K() * error
-   ```
 

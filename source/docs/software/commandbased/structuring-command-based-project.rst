@@ -193,9 +193,6 @@ In Java, it is recommended that the constants be used from other classes by stat
    import static edu.wpi.first.wpilibj.templates.commandbased.Constants.OIConstants.*;
    ```
 
-   ```c++
-   using namespace OIConstants;
-   ```
 
 ## Subsystems
 

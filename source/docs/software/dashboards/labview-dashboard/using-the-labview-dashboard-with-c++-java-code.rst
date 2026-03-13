@@ -24,33 +24,7 @@ The :guilabel:`Select Autonomous...` dropdown can be used so show the available 
    }
    ```
 
-   ```c++
-   frc::SmartDashboard::PutStringArray("Auto List", {"Drive Forwards", "Drive Backwards", "Shoot"});
-      // At the beginning of auto
-   String autoName = SmartDashboard.GetString("Auto Selector", "Drive Forwards") // This would make "Drive Forwards the default auto
-   switch(autoName) {
-      case "Drive Forwards":
-      // auto here
-      case "Drive Backwards":
-      // auto here
-      case "Shoot":
-      // auto here
-   }
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-      SmartDashboard.putStringArray("Auto List", ["Drive Forwards", "Drive Backwards", "Shoot"])
-      # At the beginning of auto
-   autoName = SmartDashboard.getString("Auto Selector", "Drive Forwards") # This would make "Drive Forwards the default auto
-   match autoName:
-      case "Drive Forwards":
-         # auto here
-      case "Drive Backwards":
-         # auto here
-      case "Shoot":
-         # auto here
-   ```
 
 Sending to the "Gyro" NetworkTables entry will populate the gyro here.
 
@@ -60,14 +34,7 @@ Sending to the "Gyro" NetworkTables entry will populate the gyro here.
    SmartDashboard.putNumber("Gyro", drivetrain.getHeading());
    ```
 
-   ```c++
-   frc::SmartDashboard::PutNumber("Gyro", Drivetrain.GetHeading());
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-   SmartDashboard.putNumber("Gyro", self.drivetrain.getHeading())
-   ```
 
 There are four outputs that show the motor power to the drivetrain.  This is configured for 2 motors per side and a tank style drivetrain.  This is done by setting "RobotDrive Motors" like the example below.
 
@@ -77,14 +44,7 @@ There are four outputs that show the motor power to the drivetrain.  This is con
    SmartDashboard.putNumberArray("RobotDrive Motors", {drivetrain.getLeftFront(), drivetrain.getRightFront(), drivetrain.getLeftBack(), drivetrain.getRightBack()});
    ```
 
-   ```c++
-   frc::SmartDashboard::PutNumberArray("Gyro", {drivetrain.GetLeftFront(), drivetrain.GetRightFront(), drivetrain.GetLeftBack(), drivetrain.GetRightBack()});
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-   SmartDashboard.putNumberArray("RobotDrive Motors", [self.drivetrain.getLeftFront(), self.drivetrain.getRightFront(), self.drivetrain.getLeftBack(), self.drivetrain.getRightBack()])
-   ```
 
 ## Basic Tab
 
@@ -104,14 +64,7 @@ The strings are labeled top-to-bottom, left-to-right from "DB/String 0" to "DB/S
    SmartDashboard.putString("DB/String 0", "My 21 Char TestString");
    ```
 
-   ```c++
-   frc::SmartDashboard::PutString("DB/String 0", "My 21 Char TestString");
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-   SmartDashboard.putString("DB/String 0", "My 21 Char TestString")
-   ```
 
 To read string data entered on the Dashboard:
 
@@ -121,14 +74,7 @@ To read string data entered on the Dashboard:
    String dashData = SmartDashboard.getString("DB/String 0", "myDefaultData");
    ```
 
-   ```c++
-   std::string dashData = frc::SmartDashboard::GetString("DB/String 0", "myDefaultData");
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-   dashData = SmartDashboard.getString("DB/String 0", "myDefaultData")
-   ```
 
 ### Buttons and LEDs
 
@@ -142,14 +88,7 @@ The Buttons and LEDs are boolean values and are labeled top-to-bottom from "DB/B
    SmartDashboard.putBoolean("DB/Button 0", true);
    ```
 
-   ```c++
-   frc::SmartDashboard::PutBoolean("DB/Button 0", true);
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-   SmartDashboard.putBoolean("DB/Button 0", true)
-   ```
 
 To read from the Buttons: (default value is false)
 
@@ -159,14 +98,7 @@ To read from the Buttons: (default value is false)
    boolean buttonValue = SmartDashboard.getBoolean("DB/Button 0", false);
    ```
 
-   ```c++
-   bool buttonValue = frc::SmartDashboard::GetBoolean("DB/Button 0", false);
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-   buttonValue = SmartDashboard.getBoolean("DB/Button 0", false)
-   ```
 
 ### Sliders
 
@@ -180,14 +112,7 @@ The Sliders are bi-directional analog (double) controls/indicators with a range 
    SmartDashboard.putNumber("DB/Slider 0", 2.58);
    ```
 
-   ```c++
-   frc::SmartDashboard::PutNumber("DB/Slider 0", 2.58);
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-   SmartDashboard.putNumber("DB/Slider 0", 2.58)
-   ```
 
 To read values from the Dashboard into the robot program: (default value of 0.0)
 
@@ -197,12 +122,5 @@ To read values from the Dashboard into the robot program: (default value of 0.0)
    double dashData = SmartDashboard.getNumber("DB/Slider 0", 0.0);
    ```
 
-   ```c++
-   double dashData = frc::SmartDashboard::GetNumber("DB/Slider 0", 0.0);
-   ```
 
-   ```python
-   from wpilib import SmartDashboard
-   dashData = SmartDashboard.getNumber("DB/Slider 0", 0.0)
-   ```
 

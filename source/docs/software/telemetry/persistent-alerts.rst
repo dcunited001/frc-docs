@@ -27,25 +27,7 @@ Alert states are often expressed most easily as a conditional, such as whether t
       }
    ```
 
-   ```c++
 
-      class Robot {
-        frc::Alert alert{"Something went wrong", frc::Alert::AlertType::kWarning};
-      }
-
-      Robot::periodic() {
-        alert.Set(...);
-      }
-   ```
-
-   ```python
-
-      self.alert = Alert("Something went wrong", AlertType.kWarning)
-
-      def periodic() {
-        self.alert.set(...)
-      }
-   ```
 
 .. note:: Suggested usage of each alert type (error, warning, or info) is provided in the enum API documentation.
 

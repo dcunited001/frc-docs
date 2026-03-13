@@ -11,15 +11,7 @@ Sending simple data (numbers, strings, booleans, and arrays of these) is done by
         .add("Pi", 3.14);
    ```
 
-   ```c++
-   frc::Shuffleboard::GetTab("Numbers")
-        .Add("Pi", 3.14);
-   ```
 
-   ```python
-   from wpilib.shuffleboard import Shuffleboard
-   Shuffleboard.getTab("Tab Title").add("Pi", 3.14)
-   ```
 
 If data needs to be updated (for example, the output of some calculation done on the robot), call ``getEntry()`` after defining the value, then update it when needed or in a ``periodic`` function
 
@@ -38,15 +30,6 @@ If data needs to be updated (for example, the output of some calculation done on
    }
    ```
 
-   ```python
-   from wpilib.shuffleboard import Shuffleboard
-   def robotInit(self):
-      tab = Shuffleboard.getTab("Vision")
-      self.distanceEntry = tab.add("Distance to target", 0).getEntry()
-   def teleopPeriodic(self):
-      distance = self.encoder.getDistance()
-      self.distanceEntry.setDouble(distance)
-   ```
 
 ## Making choices persist between reboots
 
@@ -63,16 +46,7 @@ Simply using `addPersistent` instead of `add` will make the value saved on the r
         .addPersistent("Max Speed", 1.0);
    ```
 
-   ```c++
-   frc::Shuffleboard::GetTab("Drive")
-        .AddPersistent("Max Speed", 1.0);
-   ```
 
-   ```python
-   from wpilib.shuffleboard import Shuffleboard
-   (Shuffleboard.getTab("Drive")
-         .addPersistent("Max Speed", 1.0))
-   ```
 
 ## Sending sensors, motors, etc
 
@@ -85,14 +59,5 @@ Analogous to ``SmartDashboard.putData``, any ``Sendable`` object (most sensors, 
         .add("Sendable Title", mySendable);
    ```
 
-   ```c++
-   frc::Shuffleboard::GetTab("Tab Title")
-        .Add("Sendable Title", mySendable);
-   ```
 
-   ```python
-   from wpilib.shuffleboard import Shuffleboard
-   (Shuffleboard.getTab("Tab Title")
-         .add("Sendable Title", mySendable))
-   ```
 

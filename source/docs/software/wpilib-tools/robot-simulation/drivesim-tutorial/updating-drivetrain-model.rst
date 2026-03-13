@@ -37,33 +37,6 @@ There are three main steps to updating the model:
    }
    ```
 
-   ```c++
-   frc::PWMSparkMax m_leftMotor{0};
-   frc::PWMSparkMax m_rightMotor{1};
-   Drivetrain() {
-     ...
-     m_leftEncoder.SetDistancePerPulse(2 * std::numbers::pi * kWheelRadius / kEncoderResolution);
-     m_rightEncoder.SetDistancePerPulse(2 * std::numbers::pi * kWheelRadius / kEncoderResolution);
-   }
-   void SimulationPeriodic() {
-     // Set the inputs to the system. Note that we need to convert
-     // the [-1, 1] PWM signal to voltage by multiplying it by the
-     // robot controller voltage.
-     m_driveSim.SetInputs(
-       m_leftMotor.get() * units::volt_t(frc::RobotController::GetInputVoltage()),
-       m_rightMotor.get() * units::volt_t(frc::RobotController::GetInputVoltage()));
-     // Advance the model by 20 ms. Note that if you are running this
-     // subsystem in a separate thread or have changed the nominal timestep
-     // of TimedRobot, this value needs to match it.
-     m_driveSim.Update(20_ms);
-     // Update all of our sensors.
-     m_leftEncoderSim.SetDistance(m_driveSim.GetLeftPosition().value());
-     m_leftEncoderSim.SetRate(m_driveSim.GetLeftVelocity().value());
-     m_rightEncoderSim.SetDistance(m_driveSim.GetRightPosition().value());
-     m_rightEncoderSim.SetRate(m_driveSim.GetRightVelocity().value());
-     m_gyroSim.SetAngle(-m_driveSim.GetHeading().Degrees());
-   }
-   ```
 
 .. important:: If the right side of your drivetrain is inverted, you MUST negate the right voltage in the ``SetInputs()`` call to ensure that positive voltages correspond to forward movement.
 

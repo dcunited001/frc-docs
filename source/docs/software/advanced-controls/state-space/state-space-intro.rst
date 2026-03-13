@@ -172,34 +172,7 @@ For example, we might use the following Q and R for an elevator system with posi
          0.020);
       ```
 
-   ```C++
-   // Example system -- must be changed to match your robot.
-   LinearSystem<2, 1, 1> elevatorSystem = frc::LinearSystemId::IdentifyVelocitySystem(5, 0.5);
-   LinearQuadraticRegulator<2, 1> controller{
-       elevatorSystem,
-       // q's elements
-       {0.02, 0.4},
-       // r's elements
-       {12.0},
-       // our dt
-       0.020_s};
-   ```
 
-   ```python
-   from wpimath.controller import LinearQuadraticRegulator_2_1
-   from wpimath.system.plant import LinearSystemId
-   # Example system -- must be changed to match your robot.
-   elevatorSystem = LinearSystemId.identifyPositionSystemMeters(5, 0.5)
-   controller = LinearQuadraticRegulator_2_1(
-      elevatorSystem,
-      # q's elements
-      (0.02, 0.4),
-      # r's elements
-      (12.0,),
-      # our dt
-      0.020,
-   )
-   ```
 
 ### LQR: example application
 
@@ -247,19 +220,7 @@ The code below shows how to adjust the LQR controller's K gain for sensor input 
    controller.latencyCompensate(elevatorSystem, 0.02, 0.025);
    ```
 
-   ```c++
-   // Adjust our LQR's controller for 25 ms of sensor input delay. We
-   // provide the linear system, discretization timestep, and the sensor
-   // input delay as arguments.
-   controller.LatencyCompensate(elevatorSystem, 20_ms, 25_ms);
-   ```
 
-   ```python
-   # Adjust our LQR's controller for 25 ms of sensor input delay. We
-   # provide the linear system, discretization timestep, and the sensor
-   # input delay as arguments.
-   controller.latencyCompensate(elevatorSystem, 0.020, 0.025)
-   ```
 
 ## Linearization
 

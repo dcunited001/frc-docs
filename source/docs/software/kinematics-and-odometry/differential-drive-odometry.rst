@@ -25,29 +25,7 @@ The optional argument is the starting pose of your robot on the field (as a ``Po
      new Pose2d(5.0, 13.5, new Rotation2d()));
    ```
 
-   ```c++
-   // Creating my odometry object. Here,
-   // our starting pose is 5 meters along the long end of the field and in the
-   // center of the field along the short end, facing forward.
-   frc::DifferentialDriveOdometry m_odometry{
-     m_gyro.GetRotation2d(),
-     units::meter_t{m_leftEncoder.GetDistance()},
-     units::meter_t{m_rightEncoder.GetDistance()},
-     frc::Pose2d{5_m, 13.5_m, 0_rad}};
-   ```
 
-   ```python
-   from wpimath.kinematics import DifferentialDriveOdometry
-   from wpimath.geometry import Pose2d
-   from wpimath.geometry import Rotation2d
-   # Creating my odometry object. Here,
-   # our starting pose is 5 meters along the long end of the field and in the
-   # center of the field along the short end, facing forward.
-   m_odometry = DifferentialDriveOdometry(
-     m_gyro.getRotation2d(),
-     m_leftEncoder.getDistance(), m_rightEncoder.getDistance(),
-     Pose2d(5.0, 13.5, Rotation2d()))
-   ```
 
 ## Updating the Robot Pose
 The ``update`` method can be used to update the robot's position on the field. This method must be called periodically, preferably in the ``periodic()`` method of a :ref:`Subsystem <docs/software/commandbased/subsystems:Subsystems>`. The ``update`` method returns the new updated pose of the robot. This method takes in the gyro angle of the robot, along with the left encoder distance and right encoder distance.
@@ -68,26 +46,7 @@ The ``update`` method can be used to update the robot's position on the field. T
    }
    ```
 
-   ```c++
-   void Periodic() override {
-     // Get the rotation of the robot from the gyro.
-     frc::Rotation2d gyroAngle = m_gyro.GetRotation2d();
-     // Update the pose
-     m_pose = m_odometry.Update(gyroAngle,
-       units::meter_t{m_leftEncoder.GetDistance()},
-       units::meter_t{m_rightEncoder.GetDistance()});
-   }
-   ```
 
-   ```python
-   def periodic(self):
-     # Get the rotation of the robot from the gyro.
-     gyroAngle = m_gyro.getRotation2d()
-     # Update the pose
-     m_pose = m_odometry.update(gyroAngle,
-       m_leftEncoder.getDistance(),
-       m_rightEncoder.getDistance())
-   ```
 
 ## Resetting the Robot Pose
 The robot pose can be reset via the ``resetPosition`` method. This method accepts four arguments: the current gyro angle, the left and right wheel positions, and the new field-relative pose.

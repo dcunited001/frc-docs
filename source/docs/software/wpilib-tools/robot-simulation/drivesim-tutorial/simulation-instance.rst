@@ -21,20 +21,6 @@ The ``EncoderSim`` class allows users to set encoder positions and velocities on
    private EncoderSim m_rightEncoderSim = new EncoderSim(m_rightEncoder);
    ```
 
-   ```c++
-   #include <frc/Encoder.h>
-   #include <frc/simulation/EncoderSim.h>
-   ...
-   // These represent our regular encoder objects, which we would
-   // create to use on a real robot.
-   frc::Encoder m_leftEncoder{0, 1};
-   frc::Encoder m_rightEncoder{2, 3};
-   // These are our EncoderSim objects, which we will only use in
-   // simulation. However, you do not need to comment out these
-   // declarations when you are deploying code to the roboRIO.
-   frc::sim::EncoderSim m_leftEncoderSim{m_leftEncoder};
-   frc::sim::EncoderSim m_rightEncoderSim{m_rightEncoder};
-   ```
 
 ## Simulating Gyroscopes
 Similar to the ``EncoderSim`` class, simulated gyroscope classes also exist for commonly used WPILib gyros -- ``AnalogGyroSim`` and ``ADXRS450_GyroSim``. These are also constructed in the same manner.
@@ -51,15 +37,4 @@ Similar to the ``EncoderSim`` class, simulated gyroscope classes also exist for 
    private AnalogGyroSim m_gyroSim = new AnalogGyroSim(m_gyro);
    ```
 
-   ```c++
-   #include <frc/AnalogGyro.h>
-   #include <frc/simulation/AnalogGyroSim.h>
-   ...
-   // Create our gyro objectl ike we would on a real robot.
-   frc::AnalogGyro m_gyro{1};
-   // Create the simulated gyro object, used for setting the gyro
-   // angle. Like EncoderSim, this does not need to be commented out
-   // when deploying code to the roboRIO.
-   frc::sim::AnalogGyroSim m_gyroSim{m_gyro};
-   ```
 

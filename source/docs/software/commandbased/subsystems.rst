@@ -205,13 +205,7 @@ Setting a default command for a subsystem is very easy; one simply calls ``Comma
    CommandScheduler.getInstance().setDefaultCommand(exampleSubsystem, exampleCommand);
    ```
 
-   ```c++
-   CommandScheduler.GetInstance().SetDefaultCommand(exampleSubsystem, std::move(exampleCommand));
-   ```
 
-   ```python
-   CommandScheduler.getInstance().setDefaultCommand(exampleSubsystem, exampleCommand)
-   ```
 
 .. tab-set-code::
 
@@ -219,12 +213,6 @@ Setting a default command for a subsystem is very easy; one simply calls ``Comma
    exampleSubsystem.setDefaultCommand(exampleCommand);
    ```
 
-   ```c++
-   exampleSubsystem.SetDefaultCommand(std::move(exampleCommand));
-   ```
 
-   ```python
-   exampleSubsystem.setDefaultCommand(exampleCommand)
-   ```
 
 .. note:: A command that is assigned as the default command for a subsystem must require that subsystem.

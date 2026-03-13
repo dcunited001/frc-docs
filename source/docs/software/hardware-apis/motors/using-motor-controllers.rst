@@ -36,36 +36,7 @@ Motor controllers should be declared as member variables in your subsystem class
    }
    ```
 
-   ```c++
-   class IntakeSubsystem : public frc2::SubsystemBase {
-    public:
-     IntakeSubsystem() : m_motor{0} {}
 
-     void RunIntake() {
-       m_motor.Set(0.8);
-     }
-
-     void StopIntake() {
-       m_motor.Set(0.0);
-     }
-
-    private:
-     frc::Spark m_motor;
-   };
-   ```
-
-   ```python
-   class IntakeSubsystem(commands2.SubsystemBase):
-       def __init__(self):
-           super().__init__()
-           self.motor = wpilib.Spark(0)
-
-       def run_intake(self):
-           self.motor.set(0.8)
-
-       def stop_intake(self):
-           self.motor.set(0.0)
-   ```
 
 **In Timed Robot programs:**
 
@@ -96,39 +67,7 @@ Motor controllers should be declared as member variables in your ``Robot`` class
    }
    ```
 
-   ```c++
-   class Robot : public frc::TimedRobot {
-    public:
-     Robot() : m_intakeMotor{0}, m_joystick{0} {}
 
-     void TeleopPeriodic() override {
-       // Run intake when button is pressed
-       if (m_joystick.GetRawButton(1)) {
-         m_intakeMotor.Set(0.8);
-       } else {
-         m_intakeMotor.Set(0.0);
-       }
-     }
-
-    private:
-     frc::Spark m_intakeMotor;
-     frc::Joystick m_joystick;
-   };
-   ```
-
-   ```python
-   class MyRobot(wpilib.TimedRobot):
-       def robotInit(self):
-           self.intake_motor = wpilib.Spark(0)
-           self.joystick = wpilib.Joystick(0)
-
-       def teleopPeriodic(self):
-           # Run intake when button is pressed
-           if self.joystick.getRawButton(1):
-               self.intake_motor.set(0.8)
-           else:
-               self.intake_motor.set(0.0)
-   ```
 
 ### Common Use Cases
 

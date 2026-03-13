@@ -38,19 +38,7 @@ It is the responsibility of the user to manage proper inversions for their drive
    }
    ```
 
-   ```c++
-   frc::PWMSparkMax m_motorLeft{0};
-   public:
-    Robot::Robot() {
-      m_motorRight.SetInverted(true);
-    }
-   ```
 
-   ```python
-   def robotInit(self):
-       self.motorRight = wpilib.PWMSparkMax(0)
-       self.motorRight.setInverted(True)
-   ```
 
 ### Squaring Inputs
 

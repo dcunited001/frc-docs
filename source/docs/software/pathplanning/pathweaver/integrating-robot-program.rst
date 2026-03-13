@@ -24,17 +24,6 @@ The ``fromPathweaverJson`` (Java) / ``FromPathweaverJson`` (C++) static methods 
    }
    ```
 
-   ```c++
-   #include <frc/Filesystem.h>
-   #include <frc/trajectory/TrajectoryUtil.h>
-   #include <wpi/fs.h>
-   frc::Trajectory trajectory;
-   Robot::Robot()) {
-      fs::path deployDirectory = frc::filesystem::GetDeployDirectory();
-      deployDirectory = deployDirectory / "paths" / "YourPath.wpilib.json";
-      trajectory = frc::TrajectoryUtil::FromPathweaverJson(deployDirectory.string());
-   }
-   ```
 
 In the examples above, ``YourPath`` should be replaced with the name of your path.
 

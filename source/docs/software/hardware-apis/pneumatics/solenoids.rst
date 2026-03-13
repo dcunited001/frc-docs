@@ -97,14 +97,4 @@ Solenoids can be switched from one output to the other (known as toggling) by us
    }
    ```
 
-   ```c++
-   frc::Solenoid exampleSingle{frc::PneumaticsModuleType::CTREPCM, 0};
-   frc::DoubleSolenoid exampleDouble{frc::PneumaticsModuleType::CTREPCM, 1, 2};
-   // Initialize the DoubleSolenoid so it knows where to start.  Not required for single solenoids.
-   exampleDouble.Set(frc::DoubleSolenoid::Value::kReverse);
-   if (m_controller.GetYButtonPressed()) {
-      exampleSingle.Toggle();
-      exampleDouble.Toggle();
-   }
-   ```
 

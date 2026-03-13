@@ -37,30 +37,7 @@ Both of the following examples are extremely simplified programs that just illus
    }
    ```
 
-   ```c++
-   nt::DoubleArraySubscriber areasSub;
-   Robot::Robot() {
-     auto table = nt::NetworkTableInstance::GetDefault().GetTable("GRIP/myContoursReport");
-     areasSub = table->GetDoubleArrayTopic("area").Subscribe({});
-   }
-   void Robot::TeleopPeriodic() override {
-     std::cout << "Areas: ";
-     std::vector<double> arr = areasSub.Get();
-     for (double val : arr) {
-       std::cout << val << " ";
-     }
-     std::cout << std::endl;
-   }
-   ```
 
-   ```python
-   def robotInit(self):
-       table = ntcore.NetworkTableInstance.getDefault().getTable("GRIP/mycontoursReport")
-       self.areasSub = table.getDoubleArrayTopic("area").subscribe([])
-   def teleopPeriodic(self):
-       areas = self.areasSub.get()
-       print("Areas:", areas)
-   ```
 
 The steps to getting the values and, in this program, printing them are:
 
