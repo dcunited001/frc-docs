@@ -10,7 +10,7 @@ Run
 
 #+begin_src bash
 # there are some other code blocks but idc
-find source/docs -name '*.rst' -type f -exec scripts/only-java \{\} +
+find ../source/docs -name '*.rst' -type f -exec scripts/only-java \{\} +
 #+end_src
 
 If it screws up =git reset=, otherwise hold off on =-i inplace= for =gawk=
