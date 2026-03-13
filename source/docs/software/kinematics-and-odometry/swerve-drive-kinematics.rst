@@ -91,8 +91,11 @@ Cosine compensation has been shown to reduce the amount of "skew" a swerve drive
 
 
 
-### Field-oriented drive
-:ref:`Recall <docs/software/kinematics-and-odometry/intro-and-chassis-speeds:Creating a ChassisSpeeds object from field-relative speeds>` that a ``ChassisSpeeds`` object can be created from a set of desired field-oriented speeds. This feature can be used to get module states from a set of desired field-oriented speeds.
+### Field-oriented drive :ref:`Recall
+<docs/software/kinematics-and-odometry/intro-and-chassis-speeds:Creating a
+ChassisSpeeds object from field-relative speeds>` that a ``ChassisSpeeds``
+object can be created from a set of desired field-oriented speeds. This feature
+can be used to get module states from a set of desired field-oriented speeds.
 
 .. tab-set-code::
 

@@ -47,14 +47,6 @@ In the following example, we simulate an elevator given the mass of the moving c
          :lines: 46-58
          :lineno-match:
 
-   .. tab-item:: C++
-      :sync: c++
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/ElevatorSimulation/include/subsystems/Elevator.h
-         :language: c++
-         :lines: 51-61
-         :lineno-match:
-
 Next, :code:`teleopPeriodic`/:code:`TeleopPeriodic` (Java/C++) uses a simple PID control loop to drive our elevator to a setpoint 30 inches off the ground.
 
 .. tab-set::
@@ -72,19 +64,6 @@ Next, :code:`teleopPeriodic`/:code:`TeleopPeriodic` (Java/C++) uses a simple PID
          :lines: 99-106
          :lineno-match:
 
-   .. tab-item:: C++
-      :sync: c++
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/ElevatorSimulation/cpp/Robot.cpp
-         :language: c++
-         :lines: 20-28
-         :lineno-match:
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/ElevatorSimulation/cpp/subsystems/Elevator.cpp
-         :language: c++
-         :lines: 42-50
-         :lineno-match:
-
 Next, :code:`simulationPeriodic`/:code:`SimulationPeriodic` (Java/C++) uses the voltage applied to the motor to update the simulated position of the elevator. We use :code:`SimulationPeriodic` because it runs periodically only for simulated robots. This means that our simulation code will not be run on a real robot.
 
 .. note:: Classes inheriting from command-based's ``Subsystem`` can override the inherited ``simulationPeriodic()`` method. Other classes will need their simulation update methods called from ``Robot``'s ``simulationPeriodic``.
@@ -99,12 +78,4 @@ Finally, the simulated encoder's distance reading is set using the simulated ele
       .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/elevatorsimulation/subsystems/Elevator.java
          :language: java
          :lines: 79-92
-         :lineno-match:
-
-   .. tab-item:: C++
-      :sync: c++
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/ElevatorSimulation/cpp/subsystems/Elevator.cpp
-         :language: c++
-         :lines: 20-35
          :lineno-match:

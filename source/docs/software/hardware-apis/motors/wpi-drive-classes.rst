@@ -110,28 +110,6 @@ DifferentialDrive is a method provided for the control of "skid-steer" or "West 
             :language: java
             :lines: 17-18,22-23,24-26,30-35,38
 
-    .. tab-item:: C++ (Header)
-        :sync: C++ (Header)
-
-        .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.3.2/wpilibcExamples/src/main/cpp/examples/TankDrive/cpp/Robot.cpp
-            :language: c++
-            :lines: 15-19
-
-    .. tab-item:: C++ (Source)
-         :sync: C++ (Source)
-
-        .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.3.2/wpilibcExamples/src/main/cpp/examples/TankDrive/cpp/Robot.cpp
-            :language: c++
-            :lines: 24, 28-32
-
-    .. tab-item:: Python
-        :sync: Python
-
-        .. remoteliteralinclude:: https://raw.githubusercontent.com/robotpy/examples/d89b0587a1e1111239728140466c7dc4324d4005/TankDrive/robot.py
-           :language: python
-           :lines: 18-23,27-30
-
-
 ### Multi-Motor DifferentialDrive
 
 Many FRC\ |reg| drivetrains have more than 1 motor on each side. Classes derived from ``PWMMotorController`` ([Java](https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj/motorcontrol/PWMMotorController.html) / [C++](https://github.wpilib.org/allwpilib/docs/release/cpp/classfrc_1_1_p_w_m_motor_controller.html) / :external:py:class:`Python <wpilib.PWMMotorController>`) have an ``addFollower`` method so that multiple follower motor controllers can be updated when the leader motor controller is commanded. CAN motor controllers have similar features, review the vendor's documentation to see how to use them. The examples below show a 4 motor (2 per side) drivetrain. To extend to more motors, simply create the additional controllers and use additional ``addFollower`` calls.
@@ -152,39 +130,6 @@ Many FRC\ |reg| drivetrains have more than 1 motor on each side. Classes derived
         .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.3.2/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/ramsetecommand/subsystems/DriveSubsystem.java
             :language: java
             :lines: 56-62
-
-    .. tab-item:: C++ (Header)
-        :sync: C++ (Header)
-
-        .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.3.2/wpilibcExamples/src/main/cpp/examples/RamseteCommand/include/subsystems/DriveSubsystem.h
-            :language: c++
-            :lines: 114, 118-126
-
-    .. tab-item:: C++ (Source)
-        :sync: C++ (Source)
-
-        In Robot or Subsystem constructor:
-
-        .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.3.2/wpilibcExamples/src/main/cpp/examples/RamseteCommand/cpp/subsystems/DriveSubsystem.cpp
-            :language: c++
-            :lines: 23-29
-
-    .. tab-item:: Python
-        :sync: Python
-
-        ```python
-        def robotInit(self):
-            leftLeader = wpilib.Spark(1)
-            leftFollower = wpilib.Spark(2)
-            leftLeader.addFollower(leftFollower)
-            leftLeader.setInverted(
-                True
-            )  # if you want to invert the entire side you can do so here
-            rightLeader = wpilib.Spark(3)
-            rightFollower = wpilib.Spark(4)
-            rightLeader.addFollower(rightFollower)
-            self.drive = wpilib.drive.DifferentialDrive(leftLeader, rightLeader)
-        ```
 
 ### Drive Modes
 .. note::
@@ -215,27 +160,6 @@ Like Arcade Drive, the Curvature Drive mode is used to control the drivetrain us
     }
     ```
 
-    ```c++
-    void TeleopPeriodic() override {
-        // Tank drive with a given left and right rates
-        myDrive.TankDrive(-leftStick.GetY(), -rightStick.GetY());
-        // Arcade drive with a given forward and turn rate
-        myDrive.ArcadeDrive(-driveStick.GetY(), -driveStick.GetX());
-        // Curvature drive with a given forward and turn rate, as well as a quick-turn button
-        myDrive.CurvatureDrive(-driveStick.GetY(), -driveStick.GetX(), driveStick.GetButton(1));
-    }
-    ```
-
-    ```python
-    def teleopPeriodic(self):
-        # Tank drive with a given left and right rates
-        self.myDrive.tankDrive(-self.leftStick.getY(), -self.rightStick.getY())
-        # Arcade drive with a given forward and turn rate
-        self.myDrive.arcadeDrive(-self.driveStick.getY(), -self.driveStick.getX())
-        # Curvature drive with a given forward and turn rate, as well as a button for turning in-place.
-        self.myDrive.curvatureDrive(-self.driveStick.getY(), -self.driveStick.getX(), self.driveStick.getButton(1))
-    ```
-
 ## Using the MecanumDrive class to control Mecanum Drive robots
 
 MecanumDrive is a method provided for the control of holonomic drivetrains with Mecanum wheels, such as the Kit of Parts chassis with the mecanum drive upgrade kit, as shown above. Instantiating a MecanumDrive is as simple as so:
@@ -245,14 +169,6 @@ MecanumDrive is a method provided for the control of holonomic drivetrains with 
     .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.3.2/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/mecanumdrive/Robot.java
         :language: java
         :lines: 15-18, 24-30, 37-42, 45
-
-    .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.3.2/wpilibcExamples/src/main/cpp/examples/MecanumDrive/cpp/Robot.cpp
-        :language: c++
-        :lines: 36-40, 43-53, 16, 22-26
-
-    .. remoteliteralinclude:: https://raw.githubusercontent.com/robotpy/examples/d89b0587a1e1111239728140466c7dc4324d4005/MecanumDrive/robot.py
-      :language: python
-      :lines: 18-22, 26-42
 
 ### Mecanum Drive Modes
 .. note::
@@ -273,23 +189,6 @@ The MecanumDrive class contains two different default modes of driving your robo
         // Drive at 45 degrees relative to the robot, at the speed given by the Y axis of the joystick, with no rotation.
         m_robotDrive.drivePolar(-m_stick.getY(), Rotation2d.fromDegrees(45), 0);
     }
-    ```
-
-    ```c++
-    void TeleopPeriodic() override {
-        // Drive using the X, Y, and Z axes of the joystick.
-        m_robotDrive.driveCartesian(-m_stick.GetY(), -m_stick.GetX(), -m_stick.GetZ());
-        // Drive at 45 degrees relative to the robot, at the speed given by the Y axis of the joystick, with no rotation.
-        m_robotDrive.drivePolar(-m_stick.GetY(), 45_deg, 0);
-    }
-    ```
-
-    ```python
-    def teleopPeriodic(self):
-        # Drive using the X, Y, and Z axes of the joystick.
-        self.robotDrive.driveCartesian(-self.stick.getY(), -self.stick.getX(), -self.stick.getZ())
-        # Drive at 45 degrees relative to the robot, at the speed given by the Y axis of the joystick, with no rotation.
-        self.robotDrive.drivePolar(-self.stick.getY(), Rotation2d.fromDegrees(45), 0)
     ```
 
 ### Field-Oriented Driving

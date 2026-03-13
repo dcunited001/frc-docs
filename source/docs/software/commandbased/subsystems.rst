@@ -20,47 +20,6 @@ The recommended method to create a subsystem for most users is to subclass the a
          :lines: 7-
          :lineno-match:
 
-   .. tab-item:: C++
-      :sync: C++
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.1.1/wpilibcExamples/src/main/cpp/templates/commandbased/include/subsystems/ExampleSubsystem.h
-         :language: c++
-         :lines: 5-
-         :lineno-match:
-
-   .. tab-item:: Python
-      :sync: Python
-
-      ```python
-      from commands2 import Command
-      from commands2 import Subsystem
-      class ExampleSubsystem(Subsystem):
-          def __init__(self):
-              """Creates a new ExampleSubsystem."""
-              super().__init__()
-          def exampleMethodCommand()->Command:
-              """
-              Example command factory method.
-               :return a command
-              """
-              return self.runOnce(
-                  lambda: # one-time action goes here #
-              )
-          def exampleCondition(self)->bool:
-              """
-              An example method querying a boolean state of the subsystem (for example, a digital sensor).
-              :return value of some boolean subsystem state, such as a digital sensor.
-              """
-              #Query some boolean state, such as a digital sensor.
-              return False
-          def periodic(self):
-              # This method will be called once per scheduler run
-              pass
-          def simulationPeriodic(self):
-              # This method will be called once per scheduler run during simulation
-              pass
-      ```
-
 This class contains a few convenience features on top of the basic ``Subsystem`` interface: it automatically calls the ``register()`` method in its constructor to register the subsystem with the scheduler (this is necessary for the ``periodic()`` method to be called when the scheduler runs), and also implements the ``Sendable`` interface so that it can be sent to the dashboard to display/log relevant status information.
 
 Advanced users seeking more flexibility may simply create a class that implements the ``Subsystem`` interface.
@@ -77,30 +36,6 @@ What might a functional subsystem look like in practice? Below is a simple pneum
       .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.1.1/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/hatchbottraditional/subsystems/HatchSubsystem.java
          :language: java
          :lines: 5-
-         :lineno-match:
-
-   .. tab-item:: C++ (Header)
-      :sync: C++ (Header)
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.1.1/wpilibcExamples/src/main/cpp/examples/HatchbotTraditional/include/subsystems/HatchSubsystem.h
-         :language: c++
-         :lines: 5-
-         :lineno-match:
-
-   .. tab-item:: C++ (Source)
-      :sync: C++ (Source)
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.1.1/wpilibcExamples/src/main/cpp/examples/HatchbotTraditional/cpp/subsystems/HatchSubsystem.cpp
-         :language: c++
-         :lines: 5-
-         :lineno-match:
-
-   .. tab-item:: Python
-      :sync: Python
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/robotpy/examples/main/HatchbotTraditional/subsystems/hatchsubsystem.py
-         :language: python
-         :lines: 7-
          :lineno-match:
 
 Notice that the subsystem hides the presence of the DoubleSolenoid from outside code (it is declared ``private``), and instead publicly exposes two higher-level, descriptive robot actions: ``grabHatch()`` and ``releaseHatch()``. It is extremely important that "implementation details" such as the double solenoid be "hidden" in this manner; this ensures that code outside the subsystem will never cause the solenoid to be in an unexpected state. It also allows the user to change the implementation (for instance, a motor could be used instead of a pneumatic) without any of the code outside of the subsystem having to change with it.
@@ -125,22 +60,6 @@ Alternatively, instead of writing ``void`` public methods that are called from c
          :lines: 5-
          :lineno-match:
 
-   .. tab-item:: C++ (Source)
-      :sync: C++ (Source)
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.1.1/wpilibcExamples/src/main/cpp/examples/HatchbotInlined/cpp/subsystems/HatchSubsystem.cpp
-         :language: c++
-         :lines: 5-
-         :lineno-match:
-
-   .. tab-item:: Python
-      :sync: Python
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/robotpy/examples/main/HatchbotInlined/subsystems/hatchsubsystem.py
-         :language: python
-         :lines: 7-
-         :lineno-match:
-
 
 Note the qualification of the ``RunOnce`` factory used here: this isn't the static factory in ``Commands``! Subsystems have similar instance factories that return commands requiring ``this`` (Java/C++) or ``self`` (Python) subsystem. Here, the ``Subsystem.runOnce(Runnable)`` factory ([Java](https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Subsystem.html#runOnce(java.lang.Runnable)), [C++](https://github.wpilib.org/allwpilib/docs/release/cpp/classfrc2_1_1_subsystem.html#a6b8b3b7dab6f54fb8635e335dad448fe), :external:py:meth:`Python <commands2.Subsystem.runOnce>`) is used.
 
@@ -159,35 +78,6 @@ Subsystems have a ``periodic`` method that is called once every scheduler iterat
          :language: java
          :lines: 117-125
          :lineno-match:
-
-   .. tab-item:: C++ (Header)
-      :sync: C++ (Header)
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.1.1-beta-4/wpilibcExamples/src/main/cpp/examples/StateSpaceDifferentialDriveSimulation/include/subsystems/DriveSubsystem.h
-         :language: c++
-         :lines: 30-30
-         :lineno-match:
-
-   .. tab-item:: C++ (Source)
-      :sync: C++ (Source)
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.1.1-beta-4/wpilibcExamples/src/main/cpp/examples/StateSpaceDifferentialDriveSimulation/cpp/subsystems/DriveSubsystem.cpp
-         :language: c++
-         :lines: 30-36
-         :lineno-match:
-
-   .. tab-item:: Python
-      :sync: Python
-
-      ```python
-      def periodic(self):
-          #Update the odometry in the periodic block
-          self.odometry.update(
-              Rotation2d.fromDegrees(getHeading()),
-              self.leftEncoder.getDistance(),
-              self.rightEncoder.getDistance())
-          self.fieldSim.setRobotPose(getPose())
-      ```
 
 There is also a ``simulationPeriodic()`` method that is similar to ``periodic()`` except that it is only run during :doc:`Simulation </docs/software/wpilib-tools/robot-simulation/introduction>` and can be used to update the state of the robot.
 

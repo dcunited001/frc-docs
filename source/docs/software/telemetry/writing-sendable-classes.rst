@@ -11,11 +11,6 @@ For example, here is the implementation of ``initSendable`` from WPILib's ``Bang
         :lines: 151-159
         :lineno-match:
 
-    .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2024.1.1/wpimath/src/main/native/cpp/controller/BangBangController.cpp
-        :language: c++
-        :lines: 55-69
-        :lineno-match:
-
 To enable the automatic updating of values by WPILib "in the background", ``Sendable`` data names are bound to getter and setter functions rather than specific data values.  If a field that you wish to log has no defined setters and getters, they can be defined inline with a lambda expression.
 
 ## The SendableBuilder Class

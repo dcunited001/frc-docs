@@ -33,20 +33,6 @@ After the length of the strip has been set, you'll have to create an ``Addressab
          :lines: 32-47
          :lineno-match:
 
-   .. tab-item:: C++
-      :sync: C++
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/AddressableLED/include/Robot.h
-         :language: c++
-         :lines: 12-12, 18-27
-         :linenos:
-         :lineno-start: 12
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/AddressableLED/cpp/Robot.cpp
-         :language: c++
-         :lines: 7-13
-         :lineno-match:
-
 ## Controlling Sections of an LED Strip
 
 The roboRIO can only control a single addressable LED output at a time, but there are often multiple physical LED strips daisy-chained around a robot, or a single flexible LED strip wrapped around structures on a robot. Individual sections can be accessed in Java using ``AddressableLEDBufferView``. Buffer views behave like subsections of the larger buffer, and can be accessed using indices in the typical [0, length) range. They can also be reversed, to allow for parallel serpentine sections to be animated in the same physical orientation (i.e. both sections would animate "forward" in the same direction, even if the strips are physically tip-to-tail).
@@ -71,27 +57,6 @@ The roboRIO can only control a single addressable LED output at a time, but ther
       AddressableLEDBufferView m_right = m_buffer.createView(60, 119).reversed();
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create the buffer
-      std::array<frc::AddressableLED::LEDData, 120> m_buffer;
-
-      // Create the view for the section of the strip on the left side of the robot.
-      // This section spans LEDs from index 0 through index 59, inclusive.
-      std::view<frc::AddressableLED::LEDData> m_left =
-         std::ranges::take_view(m_buffer, 60);
-
-      // The section of the strip on the right side of the robot.
-      // This section spans LEDs from index 60 through index 119, inclusive.
-      // This view is reversed to cancel out the serpentine arrangement of the
-      // physical LED strip on the robot.
-      std::view<frc::AddressableLED::LEDData> m_right =
-         std::ranges::reverse_view(
-            std::ranges::drop_view(m_buffer, 60));
-      ```
-
 ## LED Patterns
 
 The ``LEDPattern`` API simplifies setting LED data. Rather than needing to manually loop over every LED index, you can apply a pattern object to the data buffer directly. LED patterns are stateless, and can safely be applied to multiple buffers or views.
@@ -112,19 +77,6 @@ The ``LEDPattern`` API simplifies setting LED data. Rather than needing to manua
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that sets the entire strip to solid red
-      LEDPattern red = LEDPattern.Solid(Color::kRed);
-
-      // Apply the LED pattern to the data buffer
-      red.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
 
 ### Creating a Rainbow Effect
 
@@ -148,13 +100,6 @@ The base rainbow pattern will look like this:
          :lines: 21-31
          :lineno-match:
 
-   .. tab-item:: C++
-      :sync: C++
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/AddressableLED/include/Robot.h
-         :language: c++
-         :lines: 27-37
-         :lineno-match:
 
 Now that the rainbow pattern is defined, we only need to apply it.
 
@@ -166,14 +111,6 @@ Now that the rainbow pattern is defined, we only need to apply it.
       .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/addressableled/Robot.java
          :language: java
          :lines: 50-56
-         :lineno-match:
-
-   .. tab-item:: C++
-      :sync: C++
-
-      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/AddressableLED/cpp/Robot.cpp
-         :language: c++
-         :lines: 15-20
          :lineno-match:
 
 .. only:: html
@@ -237,51 +174,6 @@ Use commands. The command framework is specifically built for managing when acti
       }
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      Header:
-
-      ```C++
-      class LEDSubsystem : public SubsystemBase {
-       public:
-        LEDSubsystem();
-        void Periodic() override;
-
-        frc::CommandPtr RunPattern(frc::LEDPattern pattern);
-
-       private:
-        static constexpr int kPort = 9;
-        static constexpr int kLength = 120;
-        frc::AddressableLED m_led{kPort};
-        std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
-      }
-      ```
-
-      ```C++
-      LEDSubsystem::LEDSubsystem() {
-        m_led.SetLength(kLength);
-        m_led.Start();
-
-        // Set the default command to turn the strip off, otherwise the last colors written by
-        // the last command to run will continue to be displayed.
-        // Note: Other default patterns could be used instead!
-        SetDefaultCommand(RunPattern(frc::LEDPattern::Solid(frc::Color::kBlack)).WithName("Off"));
-      }
-
-      LEDSubsystem::Periodic() {
-        // Periodically send the latest LED color data to the LED strip for it to display
-        m_led.SetData(m_ledBuffer);
-      }
-
-      frc::CommandPtr LEDSubsystem::RunPattern(frc::LEDPattern pattern) {
-        // std::move is necessary for inline pattern declarations to work
-        // Otherwise we could have a use-after-free!
-        return Run([this, pattern = std::move(pattern)] { pattern.ApplyTo(m_buffer); });
-      }
-      ```
-
-
 ### Basic effects
 
 The basic effects can all be created from the factory methods declared in the ``LEDPattern`` class
@@ -309,21 +201,7 @@ The solid color pattern sets the target LED buffer to a single solid color.
       // Write the data to the LED strip
       m_led.setData(m_ledBuffer);
       ```
-
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that sets the entire strip to solid red
-      LEDPattern red = LEDPattern.Solid(Color::kRed);
-
-      // Apply the LED pattern to the data buffer
-      red.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
-
+      
 #### Continuous Gradient
 
 The gradient pattern sets the target buffer to display a smooth gradient between the specified colors. The gradient wraps around so scrolling effects can be seamless.
@@ -350,23 +228,6 @@ The gradient pattern sets the target buffer to display a smooth gradient between
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient.
-      // The LED strip will be red at both ends and blue in the center,
-      // with smooth gradients between
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern gradient = LEDPattern.Gradient(LEDPattern::GradientType::kContinuous, colors);
-
-      // Apply the LED pattern to the data buffer
-      gradient.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
-
 #### Discontinuous Gradient
 
 The gradient pattern sets the target buffer to display a smooth gradient between the specified colors. The gradient does not wrap around so it can be used for non-scrolling patterns that don't care about continuity.
@@ -390,22 +251,6 @@ The gradient pattern sets the target buffer to display a smooth gradient between
 
       // Write the data to the LED strip
       m_led.setData(m_ledBuffer);
-      ```
-
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient.
-      // The LED strip will be red at one end and blue at the other.
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern gradient = LEDPattern.Gradient(LEDPattern::GradientType::kDiscontinuous, colors);
-
-      // Apply the LED pattern to the data buffer
-      gradient.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
       ```
 
 #### Steps
@@ -435,23 +280,6 @@ Steps are specified as a combination of the *starting position* of that color, a
 
       // Write the data to the LED strip
       m_led.setData(m_ledBuffer);
-      ```
-
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays the first half of a strip as solid red,
-      // and the second half of the strip as solid blue.
-      std::array<std::pair<double, Color>, 2> colorSteps{std::pair{0.0, Color::kRed},
-                                                         std::pair{0.5, Color::kBlue}};
-      LEDPattern steps = LEDPattern.Steps(colorSteps);
-
-      // Apply the LED pattern to the data buffer
-      gradient.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
       ```
 
 #### Progress mask
@@ -490,21 +318,6 @@ Slightly different from the basic color patterns, the progress mask pattern gene
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a black-and-white mask that displays the current height of an elevator
-      // mechanism. This can be combined with other patterns to change the displayed color to something other than white.
-      LEDPattern pattern = LEDPattern::ProgressMaskLayer([&]() { return m_elevator.GetHeight() / m_elevator.GetMaxHeight(); });
-
-      // Apply the LED pattern to the data buffer
-      pattern.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
-
 ### Modifying effects
 
 Basic LED patterns can be combined with modifier effects to create new patterns with a combination of effects. Multiple modifiers can be used together to create complex patterns.
@@ -537,23 +350,6 @@ Offsets can be used to bias patterns forward of backward by a certain number of 
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient, offset 40 pixels forward.
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern base = LEDPattern::DiscontinuousGradient(colors);
-      LEDPattern pattern = base.OffsetBy(40);
-      LEDPattern negative = base.OffsetBy(-20); // Equivalent to the above when applied to a 60-LED buffer
-
-      // Apply the LED pattern to the data buffer
-      heightDisplay.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
-
 #### Reverse
 
 .. image:: images/reverse.png
@@ -577,22 +373,6 @@ Patterns and animations can be reversed to flip the direction that patterns are 
 
       // Write the data to the LED strip
       m_led.setData(m_ledBuffer);
-      ```
-
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient, then reverse it so it displays blue-to-red.
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern base = LEDPattern::DiscontinuousGradient(colors);
-      LEDPattern pattern = base.Reversed();
-
-      // Apply the LED pattern to the data buffer
-      heightDisplay.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
       ```
 
 #### Scroll
@@ -644,24 +424,6 @@ Scrolling can be controlled in two different ways: either at a speed as a functi
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient, then scroll at one quarter of the LED strip's length per second.
-      // For a half-meter length of a 120 LED-per-meter strip, this is equivalent to scrolling at 12.5 centimeters per second.
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern base = LEDPattern::DiscontinuousGradient(colors);
-      LEDPattern pattern = base.ScrollAtRelativeSpeed(units::hertz_t{0.25});
-      LEDPattern absolute = base.ScrollAtAbsoluteSpeed(0.125_mps, units::meter_t{1/120.0});
-
-      // Apply the LED pattern to the data buffer
-      heightDisplay.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
-
 #### Breathe
 
 .. only:: html
@@ -696,22 +458,6 @@ A breathing modifier will make the base pattern brighten and dim in a sinusoidal
 
       // Write the data to the LED strip
       m_led.setData(m_ledBuffer);
-      ```
-
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient, breathing at a 2 second period (0.5 Hz)
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern base = LEDPattern::DiscontinuousGradient(colors);
-      LEDPattern pattern = base.Breathe(2_s);
-
-      // Apply the LED pattern to the data buffer
-      heightDisplay.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
       ```
 
 #### Blink
@@ -773,30 +519,6 @@ Blinking can be done in one of three ways:
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient, blinking at various rates.
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern base = LEDPattern::DiscontinuousGradient(colors);
-
-      // 1.5 seconds on, 1.5 seconds off, for a total period of 3 seconds
-      LEDPattern pattern = base.Blink(1.5_s);
-
-      // 2 seconds on, 1 second off, for a total period of 3 seconds
-      LEDPattern asymmetric = base.Blink(2_s, 1_s));
-
-      // Turn the base pattern on when the RSL is on, and off when the RSL is off
-      LEDPattern sycned = base.SynchronizedBlink([]() { return RobotController.GetRSLState(); });
-
-      // Apply the LED pattern to the data buffer
-      pattern.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
-
 #### Brightness
 
 .. image:: images/brightness.png
@@ -822,22 +544,6 @@ Patterns can be brightened and dimmed relative to their original brightness; a b
 
       // Write the data to the LED strip
       m_led.setData(m_ledBuffer);
-      ```
-
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient at half brightness
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern base = LEDPattern::DiscontinuousGradient(colors);
-      LEDPattern pattern = base.AtBrightness(0.5);
-
-      // Apply the LED pattern to the data buffer
-      pattern.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
       ```
 
 ### Combinatory effects
@@ -884,27 +590,6 @@ Masks work by combining the RGB values of two patterns and keeping only the valu
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      // Create an LED pattern that displays a red-to-blue gradient at a variable length
-      // depending on the relative position of the elevator. The blue end of the gradient
-      // will only be shown when the elevator gets close to its maximum height; otherwise,
-      // that end will be solid black when the elevator is at lower heights.
-      std::array<Color, 2> colors{Color::kRed, Color::kBlue};
-      LEDPattern base = LEDPattern::DiscontinuousGradient(colors);
-      LEDPattern mask = LEDPattern::ProgressMaskLayer([&]() { m_elevator.GetHeight() / m_elevator.GetMaxHeight() });
-      LEDPattern heightDisplay = base.Mask(mask);
-
-      // Apply the LED pattern to the data buffer
-      heightDisplay.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
-
-
 .. only:: html
 
    .. video:: images/rainbow-with-scrolling-mask.mp4
@@ -942,25 +627,6 @@ Masks can also be animated (see :ref:`progressMask <docs/software/hardware-apis/
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++
-      :sync: C++
-
-      ```C++
-      std::array<std::pair<double, Color>, 2> maskSteps{std::pair{0.0, Color::kWhite},
-                                                        std::pair{0.5, Color::kBlack}};
-      LEDPattern base = LEDPattern::Rainbow(255, 255);
-      LEDPattern mask =
-         LEDPattern::Steps(maskSteps).ScrollAtRelativeSpeed(units::hertz_t{0.25});
-
-      LEDPattern pattern = base.Mask(mask);
-
-      // Apply the LED pattern to the data buffer
-      pattern.ApplyTo(m_ledBuffer);
-
-      // Write the data to the LED strip
-      m_led.SetData(m_ledBuffer);
-      ```
-
 #### Overlay
 
 Overlays can be used to "stack" patterns atop each other, where black pixels (set to ``Color.kBlack``, RGB value #000000) are treated as transparent and allow a lower layer to be displayed. Upper layers are typically combined with :ref:`masks <docs/software/hardware-apis/misc/addressable-leds:Mask>` to set transparent sections; recall that masking a pixel with ``Color.kBlack`` will *set* that pixel to black, which will then be treated by the overlay as transparent.
@@ -994,16 +660,6 @@ These examples demonstrate setting an entire LED strip to solid red using the RG
       m_led.setData(m_ledBuffer);
       ```
 
-   .. tab-item:: C++ (RGB)
-      :sync: C++
-
-      ```C++
-      for (int i = 0; i < kLength; i++) {
-         m_ledBuffer[i].SetRGB(255, 0, 0);
-      }
-      m_led.SetData(m_ledBuffer);
-      ```
-
    .. tab-item:: Java (HSV)
 
       ```Java
@@ -1013,16 +669,6 @@ These examples demonstrate setting an entire LED strip to solid red using the RG
       }
       m_led.setData(m_ledBuffer);
       ```
-
-   .. tab-item:: C++ (HSV)
-
-      ```C++
-      for (int i = 0; i < kLength; i++) {
-         m_ledBuffer[i].SetHSV(0, 100, 100);
-      }
-      m_led.SetData(m_ledBuffer);
-      ```
-
 
 ### Using HSV Values
 
