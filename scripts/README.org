@@ -15,6 +15,35 @@ find ../source/docs -name '*.rst' -type f -exec scripts/only-java \{\} +
 
 If it screws up =git reset=, otherwise hold off on =-i inplace= for =gawk=
 
+** Remote references
+
+I think i had considered doing this before, then found the remote references
+
+#+begin_src awk
+($0 ~ /^ *\.\. remoteliteralinclude::/ && $0 ~ /.*\.java$/ && keepjava ) { remotelit=1; remotelang="java"; }
+($0 ~ /^ *\.\. remoteliteralinclude::/ && $0 ~ /.*\.py$/ && keeppython) { remotelit=1; remotelang="python"; }
+($0 ~ /^ *\.\. remoteliteralinclude::/ && $0 ~ /.*\.(cpp|h)$/ && keepcpp) { remotelit=1; remotelang="cpp"; }
+
+($0 ~ /^ *\.\. remoteliteralinclude::/ && ((keepjava && remotelang == "java") || (keepcpp && remotelang == "cpp") || (keeppython && remotelang == "python"))) { print $0; next; }
+
+($0 ~ /^ +:[a-z]/ && remotelit == 1 && remotelang == "java" && keepjava) { print $0; next; }
+($0 ~ /^ +:[a-z]/ && remotelit == 1 && remotelang == "python" && keeppython) { print $0; next; }
+($0 ~ /^ +:[a-z]/ && remotelit == 1 && remotelang == "cpp" && keepcpp) { print $0; next; }
+($0 ~ /^$/ && remotelit) { print $0; next }
+#+end_src
+
+Tried to adapt for that, but this doesn't work well with awk:
+
+#+begin_src rst
+   .. tab-item:: C++ (Source)
+      :sync: C++ (Source)
+
+      .. remoteliteralinclude:: https://raw.githubusercontent.com/wpilibsuite/allwpilib/v2026.2.1/wpilibcExamples/src/main/cpp/examples/RapidReactCommandBot/cpp/subsystems/Drive.cpp
+         :language: c++
+         :lines: 5-
+         :lineno-match:
+#+end_src
+
 ** Args
 
 Can't read =-v var=value= easily. Better way would be to use a wrapper script and
