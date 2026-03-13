@@ -1,0 +1,43 @@
+#+title: Readme
+
+
+* Notes
+
+This should work on similarly formatted PDF's, making them more printable and
+much easier to read through
+
+Run
+
+#+begin_src bash
+# there are some other code blocks but idc
+find source/docs -name '*.rst' -type f -exec scripts/only-java \{\} +
+#+end_src
+
+If it screws up =git reset=, otherwise hold off on =-i inplace= for =gawk=
+
+** Args
+
+Can't read =-v var=value= easily. Better way would be to use a wrapper script and
+a =script.awk= source file
+
+*** Using shebang with =awk=
+
+Tried calling with =./scripts/filterlangs.awk java python cpp= to keep all blocks,
+=./scripts/filterlangs.awk java= to keep only java blocks
+  
+But =ARGV= still tries to read the files
+
+#+begin_src awk
+for (i=1; i < ARGC; i++) {
+    if (ARGV[i] == "--java") {
+        keepJava = 1;
+    }
+    if (ARGV[i] == "--python") {
+        keepPython = 1;
+    }
+    if (ARGV[i] == "--cpp") {
+        keepCpp = 1;
+    }
+}
+print ARGV[1]
+#+end_src

@@ -1,0 +1,27 @@
+#!/usr/bin/env -S awk -i inplace -f
+
+BEGIN {
+    incode = 0;
+    thislang = "";
+    keepjava = 1;
+}
+
+($0 ~ /^   ```[Jj]ava/) { incode = 1; thislang = "java"; }
+($0 ~ /^   ```[Pp]y(thon)?/) { incode = 1; thislang = "python"; }
+($0 ~ /^   ```[Cc]\+\+/) { incode = 1; thislang = "cpp"; }
+
+($0 ~ /^   ```[Jj]ava$/   && keepjava ) { print $0; }
+($0 ~ /^   ```[Pp]y(thon)?/ && keeppython ) { print $0; }
+($0 ~ /^   ```[Cc]\+\+$/  && keepcpp ) { print $0; }
+($0 ~ /^   ```[JCPjcp]/) { next; }
+
+($0 ~ /^   ```$/ && incode == 1 && thislang == "java"   && keepjava ) { print $0; }
+($0 ~ /^   ```$/ && incode == 1 && thislang == "python" && keeppython ) { print $0; }
+($0 ~ /^   ```$/ && incode == 1 && thislang == "cpp"    && keepcpp ) { print $0; }
+($0 ~ /^   ```$/) { incode = 0;	thislang = ""; next; }
+
+(incode == 1 && thislang == "java" && !keepjava ) { next; }
+(incode == 1 && thislang == "python" && !keeppython ) { next; }
+(incode == 1 && thislang == "cpp" && !keepcpp ) { next; }
+{ print $0 }
+
